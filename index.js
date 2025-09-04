@@ -70,7 +70,7 @@ async function get_nav(id) {
             console.log(`Date: ${entry.date}, NAV: ${entry.nav}`);
         });
         console.log("end hereee", res1.data.data.length)
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 551; i++) {
             console.log(res1.data.data[i].date, res1.data.data[i].nav)
         }
         const re = new RegExp("^" + id + ".*", "gm");
@@ -81,12 +81,36 @@ async function get_nav(id) {
         const line = match[0];
         const fields = line.split(";");
         console.log("line83", fields[fields.length - 2])
-        return fields[fields.length - 2];
+        return { nav: fields[fields.length - 2], len: res1.data.data.length };
     } catch (err) {
         console.error("Error fetching NAV:", err.message);
         return null;
     }
 }
+
+// async function get_nav(id, startYear = 2020, endYear = 2025) {
+//     try {
+//         const res1 = await axios.get(`https://api.mfapi.in/mf/${id}`);
+//         const allData = res1.data.data;
+//         console.log(allData)
+
+//         // Filter for the date range
+//         const filteredData = allData.filter(entry => {
+//             const [day, month, year] = entry.date.split("-").map(Number);
+//             return year >= startYear && year <= endYear;
+//         });
+
+//         console.log(`Showing NAV data from ${startYear} to ${endYear}:`);
+//         filteredData.forEach(entry => {
+//             console.log(`Date: ${entry.date}, NAV: ${entry.nav}`);
+//         });
+
+//         return { navData: filteredData, len: filteredData.length };
+//     } catch (err) {
+//         console.error("Error fetching NAV:", err.message);
+//         return null;
+//     }
+// }
 
 
 async function getSchemeCodeFromISIN(isin) {
@@ -112,9 +136,11 @@ async function getSchemeCodeFromISIN(isin) {
     }
 }
 
+
+
 (async () => {
-    let schemaCode = await getSchemeCodeFromISIN("INF200KA1LQ3");
+    let schemaCode = await getSchemeCodeFromISIN("INF209KB1ZE9");
     const nav = await get_nav(schemaCode);
-    console.log(schemaCode)// Pass valid fund code
-    console.log("NAV:", nav);
+    console.log(schemaCode)
+    console.log("NAV:", nav?.nav, nav?.len);
 })();
