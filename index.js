@@ -88,29 +88,6 @@ async function get_nav(id) {
     }
 }
 
-// async function get_nav(id, startYear = 2020, endYear = 2025) {
-//     try {
-//         const res1 = await axios.get(`https://api.mfapi.in/mf/${id}`);
-//         const allData = res1.data.data;
-//         console.log(allData)
-
-//         // Filter for the date range
-//         const filteredData = allData.filter(entry => {
-//             const [day, month, year] = entry.date.split("-").map(Number);
-//             return year >= startYear && year <= endYear;
-//         });
-
-//         console.log(`Showing NAV data from ${startYear} to ${endYear}:`);
-//         filteredData.forEach(entry => {
-//             console.log(`Date: ${entry.date}, NAV: ${entry.nav}`);
-//         });
-
-//         return { navData: filteredData, len: filteredData.length };
-//     } catch (err) {
-//         console.error("Error fetching NAV:", err.message);
-//         return null;
-//     }
-// }
 
 
 async function getSchemeCodeFromISIN(isin) {
@@ -136,10 +113,8 @@ async function getSchemeCodeFromISIN(isin) {
     }
 }
 
-
-
 (async () => {
-    let schemaCode = await getSchemeCodeFromISIN("INF209KB1ZE9");
+    let schemaCode = await getSchemeCodeFromISIN("INF846K01172");
     const nav = await get_nav(schemaCode);
     console.log(schemaCode)
     console.log("NAV:", nav?.nav, nav?.len);
