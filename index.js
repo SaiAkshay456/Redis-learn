@@ -64,14 +64,14 @@ async function get_nav(id) {
         const res = await axios.get("https://www.amfiindia.com/spages/NAVAll.txt");
         const content = res.data;
         const res1 = await axios.get(`https://api.mfapi.in/mf/${id}`);
-        const res2 = await axios.get(`https://mf.captnemo.in/nav/INF204KB10Q3`);
+        const res2 = await axios.get(`https://mf.captnemo.in/nav/INF205K01TQ1`);
         console.log("start hereee", res1.data.data.length)
         res1.data.data.forEach(entry => {
             console.log(`Date: ${entry.date}, NAV: ${entry.nav}`);
         });
         console.log("end hereee", res1.data.data.length)
         for (let i = 0; i < 551; i++) {
-            console.log(res1.data.data[i].date, res1.data.data[i].nav)
+            console.log("line 74", res1?.data?.data[i]?.nav, res1?.data?.data[i]?.date);
         }
         const re = new RegExp("^" + id + ".*", "gm");
         const match = content.match(re);
@@ -80,7 +80,7 @@ async function get_nav(id) {
         }
         const line = match[0];
         const fields = line.split(";");
-        console.log(res2.data, res2.data.historical_nav.length);
+        console.log(res2?.data, res2.data.historical_nav.length);
         console.log("line83", fields[fields.length - 2])
         return { nav: fields[fields.length - 2], len: res1.data.data.length };
     } catch (err) {
@@ -116,7 +116,7 @@ async function getSchemeCodeFromISIN(isin) {
 }
 
 (async () => {
-    let schemaCode = await getSchemeCodeFromISIN("INF204KB10Q3");
+    let schemaCode = await getSchemeCodeFromISIN("INF205K01TQ1");
     const nav = await get_nav(schemaCode);
     console.log(schemaCode)
     console.log("NAV:", nav?.nav, nav?.len);
