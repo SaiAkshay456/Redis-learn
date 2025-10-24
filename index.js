@@ -64,13 +64,13 @@ async function get_nav(id) {
         const res = await axios.get("https://www.amfiindia.com/spages/NAVAll.txt");
         const content = res.data;
         const res1 = await axios.get(`https://api.mfapi.in/mf/${id}`);
-        const res2 = await axios.get(`https://mf.captnemo.in/nav/INF205K01TQ1`);
+        const res2 = await axios.get(`https://mf.captnemo.in/nav/INF223J01FP7`);
         console.log("start hereee", res1.data.data.length)
         res1.data.data.forEach(entry => {
             console.log(`Date: ${entry.date}, NAV: ${entry.nav}`);
         });
         console.log("end hereee", res1.data.data.length)
-        for (let i = 0; i < 551; i++) {
+        for (let i = res1.data.data.length - 1; i > 500; i--) {
             console.log("line 74", res1?.data?.data[i]?.nav, res1?.data?.data[i]?.date);
         }
         const re = new RegExp("^" + id + ".*", "gm");
@@ -85,11 +85,9 @@ async function get_nav(id) {
         return { nav: fields[fields.length - 2], len: res1.data.data.length };
     } catch (err) {
         console.error("Error fetching NAV:", err.message);
-        return null;
+        return null
     }
 }
-
-
 
 async function getSchemeCodeFromISIN(isin) {
     try {
@@ -116,7 +114,7 @@ async function getSchemeCodeFromISIN(isin) {
 }
 
 (async () => {
-    let schemaCode = await getSchemeCodeFromISIN("INF205K01TQ1");
+    let schemaCode = await getSchemeCodeFromISIN("INF223J01FN2");
     const nav = await get_nav(schemaCode);
     console.log(schemaCode)
     console.log("NAV:", nav?.nav, nav?.len);
