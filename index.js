@@ -85,7 +85,7 @@ async function get_nav(id) {
         return { nav: fields[fields.length - 2], len: res1.data.data.length };
     } catch (err) {
         console.error("Error fetching NAV:", err.message);
-        return null;
+        return null
     }
 }
 
